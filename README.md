@@ -1,3 +1,3 @@
 # GeorgianAutoComplete
 Sequence Diagram
-# ![seqDia] (media/SeqDiagram.svg)
+# ![seqDia] (media/SeqDiagram.png)
