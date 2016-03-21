@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+
+  "name": "GeorgianAuto:",
+  "description": "Allows you dive deeper into an article rather than just skim it over",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.diffchecker.com/*" 
+      ],
+      "css":["enhance.css"],
+      "js": ["jquery-2.2.0.min.js", "enhance.js"]
+    }
+  ],
+  "browser_action": {
+   "default_icon": "icon.png"
+  },
+  "permissions": [
+   "activeTab",
+   "http://45.33.74.171:5000/"
+   ]
+}
