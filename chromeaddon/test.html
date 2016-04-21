@@ -4,11 +4,18 @@
 	<meta charset="utf-8">
 	<title>ქართული ავტო-დაბოლოვება</title>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="jquery.a-tools-1.4.1.js"></script>
+    <script type="text/javascript" src="jquery.asuggest.js"></script>
 	
     <style>
         html {
             background: aliceblue;
         }
+        
+        strong {
+            text-decoration: underline;
+        }
+        
         .container { 
             height: 100%;
             padding: 0;
@@ -86,61 +93,78 @@
     
 	<script>
 	$(function() {
-        document.onkeypress = function(e) {
-            if(e.keyCode == 13) {
-                currentInputText = document.activeElement.value
-                lastSpaceIndex = currentInputText.lastIndexOf(" ")
-                // get first word
-                autocompleted_word = popupElem.innerHTML.substring(0, popupElem.innerHTML.indexOf('<br>'))
-                newInput = currentInputText.substring(0, lastSpaceIndex) + (lastSpaceIndex == -1 ? "" : " ") + autocompleted_word + " "
-                document.activeElement.value = newInput
-                e.preventDefault()
-            }
-        };
-		function log( message ) {
-			$( "<div>" ).text( message ).prependTo( "#log" );
-			$( "#log" ).scrollTop( 0 );
-		}
-        
-        popupElem = document.getElementById("popup")
-        $textbox = $( "#text" ) 
-        $textbox.keyup(function(event){
-            placeDiv()
-            words = $textbox.val().split(" ")
-            queryWord = words[words.length>0?words.length-1:0]
-            
-            lastWord = ''
-            if(words.length > 1) {
-                lastWord = words[words.length - 2]  
-            } 
-            
+        $("#text").asuggest(function(queryWord, lastWord){
+            suggests = [];
             $.ajax({
                 url: "http://localhost:8080/suggestion",
                 method: "GET",
                 data: { 
                         q : queryWord,
                         c : lastWord
-                        },
-                dataType: "html"
-            }).done(function (response){
-                response = JSON.parse(response)
-                suggestions = response.suggestions
-
-                popupElem.innerHTML = ""
-                for(var i = 0; i < Math.min(suggestions.length, 5); i++){
-                    popupElem.innerHTML += suggestions[i] + "<br>"
-                }
+                    },
+                async: false,
+                success: function(resp){
+                    suggests = resp.suggestions;
+                }    
             });
-        })
+            return suggests;
+        });
         
-        function placeDiv(){
-            var focusElementRect = document.activeElement.getBoundingClientRect()
-            var focusElementCaretPos = document.activeElement.selectionStart
+        // document.onkeypress = function(e) {
+        //     if(e.keyCode == 13) {
+        //         currentInputText = document.activeElement.value
+        //         lastSpaceIndex = currentInputText.lastIndexOf(" ")
+        //         // get first word
+        //         autocompleted_word = popupElem.innerHTML.substring(0, popupElem.innerHTML.indexOf('<br>'))
+        //         newInput = currentInputText.substring(0, lastSpaceIndex) + (lastSpaceIndex == -1 ? "" : " ") + autocompleted_word + " "
+        //         document.activeElement.value = newInput
+        //         e.preventDefault()
+        //     }
+        // };
+		// function log( message ) {
+		// 	$( "<div>" ).text( message ).prependTo( "#log" );
+		// 	$( "#log" ).scrollTop( 0 );
+		// }
+        
+        // popupElem = document.getElementById("popup")
+        // $textbox = $( "#text" ) 
+        // $textbox.keyup(function(event){
+        //     placeDiv()
+        //     words = $textbox.val().split(" ")
+        //     queryWord = words[words.length>0?words.length-1:0]
+            
+        //     lastWord = ''
+        //     if(words.length > 1) {
+        //         lastWord = words[words.length - 2]  
+        //     } 
+            
+        //     $.ajax({
+        //         url: "http://localhost:8080/suggestion",
+        //         method: "GET",
+        //         data: { 
+        //                 q : queryWord,
+        //                 c : lastWord
+        //                 },
+        //         dataType: "html"
+        //     }).done(function (response){
+        //         response = JSON.parse(response)
+        //         suggestions = response.suggestions
 
-            var d = document.getElementById('popup');
-            d.style.left = focusElementRect.left + focusElementCaretPos + "px";
-            d.style.top = focusElementRect.bottom + "px";
-        }
+        //         popupElem.innerHTML = ""
+        //         for(var i = 0; i < Math.min(suggestions.length, 5); i++){
+        //             popupElem.innerHTML += suggestions[i] + "<br>"
+        //         }
+        //     });
+        // })
+        
+        // function placeDiv(){
+        //     var focusElementRect = document.activeElement.getBoundingClientRect()
+        //     var focusElementCaretPos = document.activeElement.selectionStart
+
+        //     var d = document.getElementById('popup');
+        //     d.style.left = focusElementRect.left + focusElementCaretPos + "px";
+        //     d.style.top = focusElementRect.bottom + "px";
+        // }
 	});
 	</script>
 </head>
