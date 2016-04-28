@@ -12,7 +12,7 @@ server {
         client_max_body_size 4G;
         server_name autocomplete.tornike.ca;
 
-        root /var/skivri-ge/frontend/app/static;
+        root /var/projects/GeorgianAutoComplete/backend/static;
 
         location / {
                 try_files $uri @proxy_to_app;
@@ -27,6 +27,6 @@ server {
 
         error_page 500 502 503 504 /500.html;
         location = /500.html {
-                root /var/skivri-ge/frontend/app/static;
+                root /var/projects/GeorgianAutoComplete/backend/static;
         }
 }
