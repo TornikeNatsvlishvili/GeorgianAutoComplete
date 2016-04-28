@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
 import heapq
 
-app = Flask(__name__)
+server = Flask(__name__)
 
 word_suggestions = {}
 single_word_suggestions = []
 
-@app.route('/suggestion')
+@server.route('/suggestion')
 def suggestion():
     if 'q' not in request.args:
         return 500
@@ -51,4 +51,4 @@ if __name__ == '__main__':
 
     load_kb("1.txt")
 
-    app.run(host="0.0.0.0", port=8080)
+    server.run(host="0.0.0.0", port=8080)
