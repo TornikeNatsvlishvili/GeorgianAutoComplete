@@ -5,7 +5,7 @@ upstream app_server {
 server {
         listen 80;
         client_max_body_size 4G;
-        server_name autocomplete.bard.tornike.ca;
+        server_name autocomplete.tornike.ca;
 
         root /var/projects/GeorgianAutoComplete/backend/static;
 
