@@ -7,6 +7,19 @@ word_suggestions = {}
 single_word_suggestions = []
 
 
+def load_kb(name):
+    word_dict = {}
+    word_suggestions[name] = word_dict
+    with open('kb/{}'.format(name), 'r') as f:
+        current_gram = ''
+        for line in f:
+            if not line.startswith('\t'):
+                current_gram = line.strip()
+                word_dict[current_gram] = []
+            else:
+                word, count = line.strip().split(':')
+                heapq.heappush(word_dict[current_gram], (int(count), word))
+
 def init():
     # load autocomplete
     load_kb("0.txt")
@@ -44,20 +57,6 @@ def suggestion():
                 suggestions.append(word)
 
     return jsonify({'suggestions': suggestions})
-
-
-def load_kb(name):
-    word_dict = {}
-    word_suggestions[name] = word_dict
-    with open('kb/{}'.format(name), 'r') as f:
-        current_gram = ''
-        for line in f:
-            if not line.startswith('\t'):
-                current_gram = line.strip()
-                word_dict[current_gram] = []
-            else:
-                word, count = line.strip().split(':')
-                heapq.heappush(word_dict[current_gram], (int(count), word))
 
 if __name__ == '__main__':
 
