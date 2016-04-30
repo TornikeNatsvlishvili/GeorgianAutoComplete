@@ -1,10 +1,14 @@
 from flask import Flask, request, jsonify
 import heapq
 
-server = Flask(__name__)
+server = Flask(__name__, static_url_path='')
 
 word_suggestions = {}
 single_word_suggestions = []
+
+@server.route('/')
+def main():
+    return server.send_static_file('index.html')
 
 @server.route('/suggestion')
 def suggestion():

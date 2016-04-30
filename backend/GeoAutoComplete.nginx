@@ -3,11 +3,6 @@ upstream app_server {
 }
 
 server {
-        listen 80 default_server;
-        return 444;
-}
-
-server {
         listen 80;
         client_max_body_size 4G;
         server_name autocomplete.bard.tornike.ca;
