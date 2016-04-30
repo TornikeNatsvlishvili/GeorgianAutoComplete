@@ -6,6 +6,19 @@ server = Flask(__name__, static_url_path='')
 word_suggestions = {}
 single_word_suggestions = []
 
+
+def init():
+    # load autocomplete
+    load_kb("0.txt")
+    # for efficiency pre-sort and save all items since there is only one key
+    count = len(word_suggestions['0.txt'][''])
+    single_word_suggestions = heapq.nlargest(count, word_suggestions['0.txt'][''])
+
+    load_kb("1.txt")
+
+
+init()
+
 @server.route('/')
 def main():
     return server.send_static_file('index.html')
@@ -47,12 +60,5 @@ def load_kb(name):
                 heapq.heappush(word_dict[current_gram], (int(count), word))
 
 if __name__ == '__main__':
-    # load autocomplete
-    load_kb("0.txt")
-    # for efficiency pre-sort and save all items since there is only one key
-    count = len(word_suggestions['0.txt'][''])
-    single_word_suggestions = heapq.nlargest(count, word_suggestions['0.txt'][''])
-
-    load_kb("1.txt")
 
     server.run(host="0.0.0.0", port=8080)
