@@ -10,7 +10,7 @@ server {
 server {
         listen 80;
         client_max_body_size 4G;
-        server_name autocomplete.tornike.ca;
+        server_name autocomplete.bard.tornike.ca;
 
         root /var/projects/GeorgianAutoComplete/backend/static;
 
