@@ -5,6 +5,7 @@ import logging
 server = Flask(__name__, static_url_path='')
 
 LOGGING_FILE_NAME = 'log.txt'
+NUM_SUGGESTIONS_TO_RETURN = 10
 word_suggestions = {}
 single_word_suggestions = []
 
@@ -64,7 +65,7 @@ def suggestion():
             if word.startswith(query):
                 suggestions.append(word)
 
-    return jsonify({'suggestions': suggestions})
+    return jsonify({'suggestions': suggestions[:NUM_SUGGESTIONS_TO_RETURN]})
 
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=8080)
