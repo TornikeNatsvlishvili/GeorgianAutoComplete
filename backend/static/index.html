@@ -40,7 +40,7 @@
             $("#text").asuggest(function(queryWord, lastWord){
                 suggests = [];
                 $.ajax({
-                    url: "http://autocomplete.tornike.ca/suggestion",
+                    url: "http://localhost:8080/suggestion",
                     method: "GET",
                     data: { 
                             q : queryWord,
