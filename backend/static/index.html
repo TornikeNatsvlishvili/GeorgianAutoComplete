@@ -40,7 +40,7 @@
             $("#text").asuggest(function(queryWord, lastWord){
                 suggests = [];
                 $.ajax({
-                    url: "http://localhost:8080/suggestion",
+                    url: "/suggestion",
                     method: "GET",
                     data: { 
                             q : queryWord,
